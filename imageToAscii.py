@@ -2,6 +2,21 @@
 # requires python3 and PIL, and UbuntuMono-R.ttf 
 #  (you will have to change the font for different operating systems.)
 
+#  usage: python3 imageToAscii.py [-h] [-i] [--fontsize FONTSIZE] filename
+#  
+#  Convert an image to ASCII
+#  
+#  positional arguments:
+#    filename              image filename to convert
+#  
+#  optional arguments:
+#    -h, --help            show this help message and exit
+#    -i, --invert          create text for white text on a black background
+#    --fontsize FONTSIZE, -f FONTSIZE
+#                          Point Size of Font - the larger the fontsize, the
+#                          smaller the ASCII output
+#  
+
 import argparse
 
 parser = argparse.ArgumentParser(description='Convert an image to ASCII')
