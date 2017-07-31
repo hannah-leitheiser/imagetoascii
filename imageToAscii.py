@@ -2,22 +2,36 @@
 # requires python3 and PIL, and UbuntuMono-R.ttf 
 #  (you will have to change the font for different operating systems.)
 
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw 
-# ASCII 0-256 that printed on my terminal
-printables = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀ'
+import argparse
 
-print("Prints ASCII representation of an image.")
-imageFileName = str( input("Filename (default: image.png):") or 'image.png')
-fontSize = int ( input("Font Size (default: 24):") or 24 )
-invert = input("Invert(Y/N) (default: N):");
-if invert == 'y' or invert == 'Y':
+parser = argparse.ArgumentParser(description='Convert an image to ASCII')
+parser.add_argument('filename', help='image filename to convert')
+parser.add_argument('-i', "--invert", dest='invert',
+                   help='create text for white text on a black background', action="store_true")
+parser.add_argument("--fontsize", "-f", dest='fontsize', action="store",
+                   help='Point Size of Font - the larger the fontsize, the smaller the ASCII output', default=24, type=int)
+
+args = parser.parse_args()
+
+# Save the relevant command line arguments
+imageFileName = args.filename
+if args.fontsize:
+   fontSize = args.fontsize
+else: 
+   fontSize = 24
+
+if args.invert:
    textBackgroundColor = "black"
    textColor = (255,255,255,255)
 else:
    textBackgroundColor = "white"
    textColor = (0,0,0,255)
+
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw 
+# ASCII 0-256 that printed on my terminal
+printables = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀ'
 
 image = Image.open(imageFileName)
 width, height = image.size
